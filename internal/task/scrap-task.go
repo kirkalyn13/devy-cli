@@ -1,4 +1,3 @@
-// Automation Script to delete generated dev files on Temp Dir whih are not yet cleared every 10min.
 package task
 
 import (
