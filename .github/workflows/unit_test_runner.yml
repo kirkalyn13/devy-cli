@@ -1,13 +1,13 @@
-name: Super-Linter
+name: Unit Test Runner
 
 on: push
 
 jobs:
-  super-lint:
-    name: Lint code base
+  unit-test-runner:
+    name: Unit Test Runner
     runs-on: ubuntu-latest
     steps:
-      - name: Checkout code
+      - name: Checkout Code
         uses: actions/checkout@v2
         
       - name: Setup Go
