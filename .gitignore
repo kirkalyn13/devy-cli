@@ -1,2 +1,2 @@
 .env
-/internal/constants/db-env.go
+# /internal/constants/db-env.go
