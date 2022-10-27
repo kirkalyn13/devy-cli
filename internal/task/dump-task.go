@@ -12,7 +12,7 @@ import (
 )
 
 // ========== Extract Schema ==========
-func DumpDB(schema string) {
+func DumpDB(schema string) error {
 	// Open connection to database
 	log.Print("Connecting to database...")
 
@@ -27,6 +27,7 @@ func DumpDB(schema string) {
 
 	if err != nil {
 		log.Fatal(err)
+		return err
 	}
 
 	log.Print("Established connection.")
@@ -36,23 +37,25 @@ func DumpDB(schema string) {
 	db, err := sql.Open("mysql", fmt.Sprintf("%s:%s@tcp(%s:%s)/%s", username, password, hostname, port, dbname))
 	if err != nil {
 		log.Fatal("Error opening database: ", err)
-		return
+		return err
 	}
 
 	// Register database with mysqldump
 	dumper, err := mysqldump.Register(db, dumpDir, dumpFilenameFormat)
 	if err != nil {
 		log.Fatal("Error registering databse:", err)
-		return
+		return err
 	}
 
 	// Dump database to file
 	resultFilename, err := dumper.Dump()
 	if err != nil {
 		log.Fatal("Error dumping:", err)
-		return
+		return err
 	}
 	log.Printf("File is saved to %s", resultFilename)
 
 	dumper.Close()
+
+	return nil
 }

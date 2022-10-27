@@ -20,7 +20,9 @@ var switchCmd = &cobra.Command{
 		if len(args) != 1 {
 			log.Print(noArgErr)
 		} else {
-			task.SwitchEmail(args[0])
+			if err := task.SwitchEmail(args[0]); err != nil {
+				panic(err)
+			}
 		}
 	},
 }

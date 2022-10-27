@@ -16,12 +16,14 @@ const (
 // ========== Docker Cleanup Task ==========
 func UnloadDocker() {
 	clearDocker(clearBuilder, "builder")
-	clearDocker(clearVolume, "volume")
+	if err := clearDocker(clearVolume, "volume"); err != nil {
+		panic(err)
+	}
 	log.Print("Waiting for next schedule...")
 }
 
 // ========== Docker Clear Command Run ==========
-func clearDocker(query string, subject string) {
+func clearDocker(query string, subject string) error {
 	args := strings.Split(query, " ")
 
 	cmd := exec.Command(args[0], args[1:]...)
@@ -30,6 +32,7 @@ func clearDocker(query string, subject string) {
 
 	if err != nil {
 		log.Printf("Cleanup failed: %v", err)
+		return err
 	}
 
 	log.Printf("%s\n", output)
@@ -37,4 +40,6 @@ func clearDocker(query string, subject string) {
 	now := time.Now()
 	dtCurrent := fmt.Sprintf("%v-%v-%v %v:%v:%v", now.Month(), now.Day(), now.Year(), now.Hour(), now.Minute(), now.Second())
 	log.Printf("Done %v cleanup as of: %v", subject, dtCurrent)
+
+	return nil
 }

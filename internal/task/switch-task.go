@@ -12,7 +12,7 @@ const (
 )
 
 // ========== Switch Git Email ==========
-func SwitchEmail(user string) {
+func SwitchEmail(user string) error {
 	args := strings.Split(gitEmail, " ")
 	args = append(args, fmt.Sprintf("%v", user))
 
@@ -22,9 +22,12 @@ func SwitchEmail(user string) {
 
 	if err != nil {
 		log.Printf("Unable to switch email: %v", err)
+		return err
 	}
 
 	log.Printf("Switching... %s\n", output)
 
 	log.Printf("Successfully switched to: %v", user)
+
+	return nil
 }

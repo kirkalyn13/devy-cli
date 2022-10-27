@@ -24,7 +24,9 @@ var dumpCmd = &cobra.Command{
 		if len(args) != 1 {
 			log.Print(noArgErr)
 		} else {
-			task.DumpDB(args[0])
+			if err := task.DumpDB(args[0]); err != nil {
+				panic(err)
+			}
 		}
 	},
 }
